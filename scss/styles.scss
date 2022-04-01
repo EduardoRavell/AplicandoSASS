@@ -7,6 +7,27 @@ $verde-aqua:#2fd1bc; //Utilizado para botones
 $verde-aqua-secundario:#13c29f; //Utilizado para animacion
 $verde-aqua-oscuro: #00b894; //Utilizado para contacto
 $blanco:#fff;
+
+@mixin d-flex-column{
+    display: flex;
+    flex-direction: column;
+}
+
+@mixin d-flex-row{
+    display: flex;
+    flex-direction: row;
+}
+
+@mixin d-grid-columns($columns,$rows){
+    display: grid;
+    grid-template-columns: repeat($columns,$rows) ;
+}
+
+@mixin estilo-nav-btn{
+    text-decoration: underline;
+    text-decoration-color: $blanco; 
+    width: 100%;
+}
 *{
     margin: 0;
     padding: 0;
@@ -78,9 +99,7 @@ body{
         li{
             a:hover{
             &:after{
-                text-decoration: underline;
-                text-decoration-color: $blanco; 
-                width: 100%;
+               @include estilo-nav-btn;
             }
         }
         } 
@@ -105,9 +124,7 @@ body{
             li{
                  a:hover{
                     &:after{
-                        text-decoration: underline;
-                        text-decoration-color: $blanco; 
-                        width: 100%;
+                       @include estilo-nav-btn;
                         }
                     }
                 }
@@ -124,8 +141,7 @@ body{
     max-height: 100vh;
     background-size: cover; 
     background-position: center;
-    display: flex;
-    flex-direction: column;
+    @include d-flex-column;
     justify-content: center;
     align-items: center;
         h1{
@@ -190,11 +206,16 @@ h2{
                 padding: 0.5rem;
                 height: 200px;
             } 
+            .nombre_servicio{
+                margin-top: 0.15rem;
+                color: $rosa-secundario; 
+                &--principal{
+                    @extend .nombre_servicio;
+                    margin-bottom: 2px;
+                }
+            }
         }
-        h3,.nombre_servicio{
-            margin-top: 0.15rem;
-            color: $rosa-secundario; 
-        }
+       
 }
 
 
@@ -236,7 +257,7 @@ h2{
 @media (min-width: 768px)
 {
    .servicios{
-       grid-template-columns: repeat(3,1fr);
+       @include d-grid-columns(3,1fr);
        column-gap: 1rem;
        .servicio{
         margin: 0 0.5rem;
@@ -251,7 +272,7 @@ h2{
 @media screen and (min-width: 1025px)
 {
    .servicios{
-       grid-template-columns: repeat(3,1fr);
+       @include d-grid-columns(3,1fr);
        margin-bottom: 2rem;
        .servicio{
         margin: auto;
@@ -292,44 +313,48 @@ h2{
 
 
 
-.icono-footer svg{
-    width: 2rem;
-    height: 2rem;
+.icono-footer 
+{   
+    svg{
+        width: 2rem;
+        height: 2rem;
+        &:hover{
+            cursor: pointer;
+        }
+    }
 }
 
-.icono-footer svg:hover{
-    cursor: pointer;
-}
+
 
 
 /**CONTACTO.HTML*/
-.contacto fieldset{
+.contacto {
+    fieldset{
     width: 90%;
     margin: 1rem auto;
+    }
+
+    legend {
+        text-align: center;
+        font-size: 1.2rem;
+        color: $verde-aqua-oscuro;
+        margin-bottom: 2rem;
+        display: block;
+        text-transform: uppercase;
+        font-weight: 700;
+    }
 }
 
-.contacto legend {
-    text-align: center;
-    font-size: 1.2rem;
-    color: $verde-aqua-oscuro;
-    margin-bottom: 2rem;
-    display: block;
-    text-transform: uppercase;
-    font-weight: 700;
-}
 
 .campo {
     margin-bottom: 1rem;
     width: 100%;
     padding: 0 2rem;
+    textarea {
+        height: 4rem;
+    }
 }
 
-
-
-
-.campo textarea {
-    height: 4rem;
-}
 
 .enviar input{
     border-style: none;
@@ -341,9 +366,11 @@ h2{
 
 
 @media screen and (min-width:768px){
-    .contacto fieldset{
+    .contacto {
+        fieldset{
         border-radius: 1rem;
         width: 70%;
+        }
     }
     .campo{
         padding: 0 3rem;
@@ -353,30 +380,28 @@ h2{
 
 /** servicio1.html**/
 
-.imagen_servicio{
-    width: 300px;
-    height: 300px;
-    margin: 1rem auto;
-}
-    
-    .figure{           
-         display: flex;
-         align-items: center;
-         flex-direction: column;
 
+    .figure{           
+         @include d-flex-column;
+         align-items: center;
+         .imagen_servicio{
+            width: 300px;
+            height: 300px;
+            margin: 1rem auto;
+        }  
     }
 
   
 
 @media (min-width: 768px){
 
-.figure-caption{
-    margin:2rem;
-}
+
 .figure{           
-    display: flex;
+    @include d-flex-row;
     align-items: center;
-    flex-direction: row;
+    .figure-caption{
+        margin:2rem;
+    }
 }
 }
 
@@ -391,40 +416,36 @@ h2{
     background-color: rgba(0, 0, 0, 0.301);
 }
 
-
 .galeria{
-    display: grid;
-    grid-template-columns: repeat(1,1fr);
+    @include d-grid-columns(1,1fr);
 }
 
 
 @media (min-width: 480px) {
     .galeria{
-        grid-template-columns: repeat(2,1fr);
+        @include d-grid-columns(2,1fr);
     }
 }
 
 
 @media (min-width: 768px) {
     .galeria{
-        grid-template-columns: repeat(3,1fr);
+        @include d-grid-columns(3,1fr);
     }
 }
 
 .imagen{
     margin: 0;
-}
-.imagen_img{  
-    width: 100%;
-    height: 100%;
-    filter: brightness(0.4);
-}
-
-
-.imagen_img:hover{
-    filter:brightness(1);
-    transition: 0.9s;
-    transition-timing-function: ease-in;
+    .imagen_img{  
+        width: 100%;
+        height: 100%;
+        filter: brightness(0.4);
+        &:hover{
+            filter:brightness(1);
+            transition: 0.9s;
+            transition-timing-function: ease-in;
+        }
+    }
 }
 
 .margin-footer{
